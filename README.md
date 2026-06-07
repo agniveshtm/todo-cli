@@ -2,14 +2,14 @@
 
 A feature-rich, keyboard-driven **Terminal User Interface (TUI)** todo application built with [Textual](https://textual.textualize.io) and [Python](https://python.org). Manage your tasks right from the terminal with a clean, dark-themed interface and full keyboard navigation.
 
-![Welcome Screen](assets/Welcome%20Screen%20(Screenshot).png)
+![Welcome Screen](src/todo_cli/assets/Welcome%20Screen%20(Screenshot).png)
 
 ## Features
 
 - **Add Tasks** – Type a task in the input box and press `Enter` to add it instantly.
 - **Complete / Un-complete Tasks** – Toggle checkboxes with `Space`. Completed tasks move to the **Completed** panel and play a success sound (Windows).
 - **Delete Tasks** – Focus a task and press `Delete`. A confirmation dialog prevents accidental deletion.
-- **Task Persistence** – All tasks are stored in a local **SQLite** database (`db/todo.db`) with creation and completion timestamps.
+- **Task Persistence** – All tasks are stored in `~/.todo-cli/todo.db` with creation and completion timestamps.
 - **Quit Confirmation** – Press `q` to see a confirmation dialog before exiting.
 - **Help Screen** – Press `?` to view all keybindings and usage instructions.
 - **Home Navigation** – Press `h` from any screen to return to the Welcome screen.
@@ -23,35 +23,39 @@ A feature-rich, keyboard-driven **Terminal User Interface (TUI)** todo applicati
 
 The landing page with the app title and a **Get Started** button to enter the main interface.
 
-![Welcome Screen](assets/Welcome%20Screen%20(Screenshot).png)
+![Welcome Screen](src/todo_cli/assets/Welcome%20Screen%20(Screenshot).png)
 
 ### Task Area (Main Screen)
 
 The core task management view with two panels: **Available** tasks on the left and **Completed** tasks on the right. An input bar at the bottom lets you add new tasks.
 
-![Todo Task Area](assets/Todo-TaskArea%20(Screenshot).png)
+![Todo Task Area](src/todo_cli/assets/Todo-TaskArea%20(Screenshot).png)
 
 ## Architecture
 
 ```
-todo_cli/
-├── assets/                  # Static assets (images, sounds)
-│   ├── bell.wav             # Success sound played on task completion
-│   ├── Welcome Screen (Screenshot).png
-│   └── Todo-TaskArea (Screenshot).png
-├── css/
-│   └── todo.tcss            # Textual CSS stylesheet for the TUI
-├── db/
-│   └── todo.db              # SQLite database (auto-generated on first run)
-├── docs/
-│   └── help.md              # Help content displayed on the Help screen
+todo-cli/
+├── .github/
+│   └── workflows/
+│       └── release.yaml
 ├── src/
 │   └── todo_cli/
-│       ├── __init__.py      # Package initializer
-│       └── main.py          # Application entry point and all screen definitions
-├── pyproject.toml           # Project metadata and build configuration (uv)
-├── uv.lock                  # Lock file for uv package manager
+│       ├── assets/                  # Static assets (images, sounds)
+│       │   ├── bell.wav             # Success sound played on task completion
+│       │   ├── Welcome Screen (Screenshot).png
+│       │   └── Todo-TaskArea (Screenshot).png
+│       ├── css/
+│       │   └── todo.tcss            # Textual CSS stylesheet for the TUI
+│       ├── docs/
+│       │   └── help.md              # Help content displayed on the Help screen
+│       ├── __init__.py              # Package initializer
+│       └── main.py                  # Application entry point and all screen definitions
+├── tests/
+│   └── test_benchmark.py
+├── pyproject.toml                   # Project metadata and build configuration (uv)
+├── uv.lock                          # Lock file for uv package manager
 ├── .gitignore
+├── LICENSE
 └── README.md
 ```
 
@@ -103,7 +107,6 @@ Welcome Screen
 | `Enter`           | Add a task from the input box            |
 | `Space`           | Check / Uncheck a task checkbox          |
 
-
 ## Benchmarks
 
 Benchmarked using `pytest-benchmark` on Python 3.14.3 (Windows):
@@ -123,16 +126,15 @@ Benchmarked using `pytest-benchmark` on Python 3.14.3 (Windows):
 ### Prerequisites
 
 - Python 3.10 or higher
-- [uv](https://docs.astral.sh/uv/) package manager (recommended) OR `pip`
 
 ### Install via Wheel (Recommended)
 
-1. Download `todo_cli-0.1.0-py3-none-any.whl` from [Releases](https://github.com/agniveshtm/TODO/releases)
+1. Download `todo_cli-<version>-py3-none-any.whl` from [Releases](https://github.com/agniveshtm/TODO-CLI/releases)
 
 2. Install it using `pip`:
 
    ```bash
-   pip install todo_cli-0.1.0-py3-none-any.whl
+   pip install todo_cli-<version>-py3-none-any.whl
    ```
 
 3. Run the application:
@@ -146,8 +148,8 @@ Benchmarked using `pytest-benchmark` on Python 3.14.3 (Windows):
 Clone the repository and install with `uv`:
 
 ```bash
-git clone https://github.com/agniveshtm/TODO.git
-cd TODO/todo_cli
+git clone https://github.com/agniveshtm/TODO-CLI.git
+cd TODO-CLI
 uv sync
 uv run todo-cli
 ```
@@ -155,8 +157,8 @@ uv run todo-cli
 Or with `pip`:
 
 ```bash
-git clone https://github.com/agniveshtm/TODO.git
-cd TODO/todo_cli
+git clone https://github.com/agniveshtm/TODO-CLI.git
+cd TODO-CLI
 pip install -e .
 todo-cli
 ```
@@ -173,8 +175,8 @@ todo-cli
 
 ## Project Links
 
-- **GitHub Repository**: [github.com/agniveshtm/TODO](https://github.com/agniveshtm/TODO)
-- **Releases**: [github.com/agniveshtm/TODO/releases](https://github.com/agniveshtm/TODO/releases)
+- **GitHub Repository**: [github.com/agniveshtm/TODO-CLI](https://github.com/agniveshtm/TODO-CLI)
+- **Releases**: [github.com/agniveshtm/TODO-CLI/releases](https://github.com/agniveshtm/TODO-CLI/releases)
 
 ## License
 
