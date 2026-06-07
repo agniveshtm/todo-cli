@@ -1,0 +1,26 @@
+[project]
+name = "todo-cli"
+version = "0.1.0"
+description = "A simple terminal-based todo list manager built with Textual"
+readme = "README.md"
+authors = [
+    { name = "Agnivesh Manojkumar", email = "agniveshtm2724@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "textual>=8.2.7",
+]
+
+[project.scripts]
+todo-cli = "todo_cli.main:main"
+
+[build-system]
+requires = ["uv_build>=0.11.14,<0.12.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.3",
+    "pytest-benchmark>=5.2.3",
+    "textual-dev>=1.8.0",
+]

@@ -1,0 +1,226 @@
+/* ══════════════════════════════════════════
+   WELCOME SCREEN  (landing page)
+   ══════════════════════════════════════════ */
+
+WelcomeScreen {
+    align: center middle;
+}
+
+WelcomeScreen > Center {
+    align: center middle;
+    width: 100%;
+    height: 1fr;
+}
+
+#welcome_card {
+    align: center middle;
+    width: 80;
+    height: auto;
+    padding: 4 6;
+    border: double $primary;
+    border-title-color: $primary;
+    border-title-style: bold;
+    background: $surface;
+}
+
+#welcome_title {
+    text-align: center;
+    text-style: bold;
+    color: $primary;
+    width: 100%;
+    margin-bottom: 3;
+    content-align: center middle;
+    border-bottom: solid $primary-darken-1;
+    padding-bottom: 2;
+}
+
+#welcome_sub {
+    text-align: center;
+    text-style: italic;
+    color: $text-muted;
+    width: 100%;
+    margin-bottom: 3;
+    content-align: center middle;
+}
+
+WelcomeScreen Button {
+    width: 100%;
+    margin-top: 3;
+    border: tall $primary;
+}
+
+WelcomeScreen Button:hover {
+    border: tall $accent;
+}
+
+WelcomeScreen Button:focus {
+    border: tall $accent;
+    text-style: bold;
+}
+
+/* ══════════════════════════════════════════
+   TODO SCREEN
+   ══════════════════════════════════════════ */
+
+TodoScreen {
+    layout: vertical;
+}
+
+TodoScreen > Vertical {
+    margin: 0 1;
+    height: 1fr;
+    layout: vertical;
+}
+
+/* ── Task list section ─────────────────────*/
+
+#lists_container {
+    layout: horizontal;
+    height: 1fr;
+    margin-bottom: 1;
+}
+
+#available_tasks_list {
+    width: 7fr;
+    margin-right: 1;
+}
+
+#completed_tasks_list {
+    width: 3fr;
+}
+
+.tasks-list {
+    height: 100%;
+    border: round $primary;
+    border-title-align: left;
+    border-title-color: $primary;
+    border-title-style: bold;
+    padding: 0 1;
+    background: $surface;
+    scrollbar-color: $primary;
+    scrollbar-color-hover: $accent;
+    scrollbar-background: $surface;
+}
+
+.tasks-list:focus-within {
+    border: round $accent;
+    border-title-color: $accent;
+}
+
+/* ── Empty state hint ──────────────────────*/
+
+.tasks-list > Label.empty-hint {
+    color: $text-muted;
+    text-style: italic;
+    content-align: center middle;
+    width: 100%;
+    margin-top: 2;
+}
+
+/* ── Individual task checkboxes ────────────*/
+
+.tasks-list Checkbox {
+    width: 100%;
+    margin: 0;
+    padding: 0 2;
+    border: tall transparent;
+    background: $surface;
+    color: $text;
+}
+
+.tasks-list Checkbox:hover {
+    background: $primary 15%;
+    border: tall $primary-darken-1;
+    color: $text;
+}
+
+.tasks-list Checkbox:focus {
+    border: tall $accent;
+    background: $accent 10%;
+    color: $text;
+}
+
+.tasks-list Checkbox.-on {
+    color: $success;
+    text-style: strike;
+    background: $success 5%;
+}
+
+.tasks-list Checkbox.-on:hover {
+    background: $success 15%;
+    border: tall $success-darken-1;
+    color: $success;
+}
+
+.tasks-list Checkbox.-on:focus {
+    background: $success 20%;
+    border: tall $success;
+    color: $success;
+}
+
+/* ── Input section ─────────────────────────*/
+
+TodoScreen Input {
+    border: round $primary-darken-2;
+    margin-top: 0;
+    background: $surface;
+    padding: 0 2;
+}
+
+TodoScreen Input:focus {
+    border: round $accent;
+}
+
+TodoScreen Input:hover {
+    border: round $primary;
+}
+
+TodoScreen Input.-invalid {
+    border: round $error;
+}
+
+TodoScreen Input.-invalid:focus {
+    border: round $error;
+}
+
+/* ══════════════════════════════════════════
+   QUIT SCREEN (modal dialog)
+   ══════════════════════════════════════════ */
+
+QuitScreen, DeleteScreen {
+    align: center middle;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+#dialog {
+    grid-size: 2;
+    grid-gutter: 1 2;
+    grid-rows: 1fr 3;
+    padding: 1 2;
+    width: 50;
+    height: 11;
+    border: thick $primary;
+    background: $surface;
+    border-title-align: center;
+    border-title-color: $primary;
+    border-title-style: bold;
+}
+
+#dialog:focus-within {
+    border: thick $accent;
+    border-title-color: $accent;
+}
+
+#question {
+    column-span: 2;
+    content-align: center middle;
+    text-align: center;
+    text-style: bold;
+    color: $text;
+}
+
+#dialog Button {
+    width: 100%;
+}
+
+
