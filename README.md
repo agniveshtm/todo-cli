@@ -127,17 +127,41 @@ Benchmarked using `pytest-benchmark` on Python 3.14.3 (Windows):
 
 - Python 3.10 or higher
 
-### Install via Wheel (Recommended)
+### Install via uv tool (Recommended)
+
+The cleanest way — installs globally and registers the `todo-cli` command:
+
+```bash
+uv tool install git+https://github.com/agniveshtm/TODO-CLI.git
+todo-cli
+```
+
+### Install via pipx
+
+```bash
+pipx install git+https://github.com/agniveshtm/TODO-CLI.git
+todo-cli
+```
+
+### Install via pip
+
+```bash
+pip install git+https://github.com/agniveshtm/TODO-CLI.git
+todo-cli
+```
+
+### Install via Wheel
 
 1. Download `todo_cli-<version>-py3-none-any.whl` from [Releases](https://github.com/agniveshtm/TODO-CLI/releases)
 
-2. Install it using `pip`:
+2. Install it:
 
    ```bash
-   pip install todo_cli-<version>-py3-none-any.whl
+   cd Downloads
+   uv tool install todo_cli-<version>-py3-none-any.whl
    ```
 
-3. Run the application:
+3. Run:
 
    ```bash
    todo-cli
@@ -145,22 +169,11 @@ Benchmarked using `pytest-benchmark` on Python 3.14.3 (Windows):
 
 ### Install from Source (Development)
 
-Clone the repository and install with `uv`:
-
 ```bash
 git clone https://github.com/agniveshtm/TODO-CLI.git
 cd TODO-CLI
 uv sync
 uv run todo-cli
-```
-
-Or with `pip`:
-
-```bash
-git clone https://github.com/agniveshtm/TODO-CLI.git
-cd TODO-CLI
-pip install -e .
-todo-cli
 ```
 
 ## Usage
