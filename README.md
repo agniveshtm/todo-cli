@@ -1,15 +1,15 @@
-# TODO-CLI
+# TODO-TUI
 
 A feature-rich, keyboard-driven **Terminal User Interface (TUI)** todo application built with [Textual](https://textual.textualize.io) and [Python](https://python.org). Manage your tasks right from the terminal with a clean, dark-themed interface and full keyboard navigation.
 
-![Welcome Screen](src/todo_cli/assets/Welcome%20Screen%20(Screenshot).png)
+![Welcome Screen](src/todo_tui/assets/Welcome%20Screen%20(Screenshot).png)
 
 ## Features
 
 - **Add Tasks** – Type a task in the input box and press `Enter` to add it instantly.
 - **Complete / Un-complete Tasks** – Toggle checkboxes with `Space`. Completed tasks move to the **Completed** panel and play a success sound (Windows).
 - **Delete Tasks** – Focus a task and press `Delete`. A confirmation dialog prevents accidental deletion.
-- **Task Persistence** – All tasks are stored in `~/.todo-cli/todo.db` with creation and completion timestamps.
+- **Task Persistence** – All tasks are stored in `~/.todo-tui/todo.db` with creation and completion timestamps.
 - **Quit Confirmation** – Press `q` to see a confirmation dialog before exiting.
 - **Help Screen** – Press `?` to view all keybindings and usage instructions.
 - **Home Navigation** – Press `h` from any screen to return to the Welcome screen.
@@ -23,23 +23,23 @@ A feature-rich, keyboard-driven **Terminal User Interface (TUI)** todo applicati
 
 The landing page with the app title and a **Get Started** button to enter the main interface.
 
-![Welcome Screen](src/todo_cli/assets/Welcome%20Screen%20(Screenshot).png)
+![Welcome Screen](src/todo_tui/assets/Welcome%20Screen%20(Screenshot).png)
 
 ### Task Area (Main Screen)
 
 The core task management view with two panels: **Available** tasks on the left and **Completed** tasks on the right. An input bar at the bottom lets you add new tasks.
 
-![Todo Task Area](src/todo_cli/assets/Todo-TaskArea%20(Screenshot).png)
+![Todo Task Area](src/todo_tui/assets/Todo-TaskArea%20(Screenshot).png)
 
 ## Architecture
 
 ```
-todo-cli/
+todo-tui/
 ├── .github/
 │   └── workflows/
 │       └── release.yaml
 ├── src/
-│   └── todo_cli/
+│   └── todo_tui/
 │       ├── assets/                  # Static assets (images, sounds)
 │       │   ├── bell.wav             # Success sound played on task completion
 │       │   ├── Welcome Screen (Screenshot).png
@@ -129,56 +129,56 @@ Benchmarked using `pytest-benchmark` on Python 3.14.3 (Windows):
 
 ### Install via uv tool (Recommended)
 
-The cleanest way — installs globally and registers the `todo-cli` command:
+The cleanest way — installs globally and registers the `todo-tui` command:
 
 ```bash
-uv tool install git+https://github.com/agniveshtm/TODO-CLI.git
-todo-cli
+uv tool install git+https://github.com/agniveshtm/TODO-TUI.git
+todo-tui
 ```
 
 ### Install via pipx
 
 ```bash
-pipx install git+https://github.com/agniveshtm/TODO-CLI.git
-todo-cli
+pipx install git+https://github.com/agniveshtm/TODO-TUI.git
+todo-tui
 ```
 
 ### Install via pip
 
 ```bash
-pip install git+https://github.com/agniveshtm/TODO-CLI.git
-todo-cli
+pip install git+https://github.com/agniveshtm/TODO-TUI.git
+todo-tui
 ```
 
 ### Install via Wheel
 
-1. Download `todo_cli-<version>-py3-none-any.whl` from [Releases](https://github.com/agniveshtm/TODO-CLI/releases)
+1. Download `todo_tui-<version>-py3-none-any.whl` from [Releases](https://github.com/agniveshtm/TODO-TUI/releases)
 
 2. Install it:
 
    ```bash
    cd Downloads
-   uv tool install todo_cli-<version>-py3-none-any.whl
+   uv tool install todo_tui-<version>-py3-none-any.whl
    ```
 
 3. Run:
 
    ```bash
-   todo-cli
+   todo-tui
    ```
 
 ### Install from Source (Development)
 
 ```bash
-git clone https://github.com/agniveshtm/TODO-CLI.git
-cd TODO-CLI
+git clone https://github.com/agniveshtm/TODO-TUI.git
+cd TODO-TUI
 uv sync
-uv run todo-cli
+uv run todo-tui
 ```
 
 ## Usage
 
-1. Launch the app with `todo-cli`
+1. Launch the app with `todo-tui`
 2. Click **Get Started** (or press `Enter`) on the Welcome screen
 3. Type a task in the input box and press `Enter` to add it
 4. Use `Tab` to navigate between checkboxes and `Space` to toggle task completion
@@ -188,8 +188,8 @@ uv run todo-cli
 
 ## Project Links
 
-- **GitHub Repository**: [github.com/agniveshtm/TODO-CLI](https://github.com/agniveshtm/TODO-CLI)
-- **Releases**: [github.com/agniveshtm/TODO-CLI/releases](https://github.com/agniveshtm/TODO-CLI/releases)
+- **GitHub Repository**: [github.com/agniveshtm/TODO-TUI](https://github.com/agniveshtm/TODO-TUI)
+- **Releases**: [github.com/agniveshtm/TODO-TUI/releases](https://github.com/agniveshtm/TODO-TUI/releases)
 
 ## License
 

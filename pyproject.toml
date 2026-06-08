@@ -1,5 +1,5 @@
 [project]
-name = "todo-cli"
+name = "todo-tui"
 version = "0.1.0"
 description = "A simple terminal-based todo list manager built with Textual"
 readme = "README.md"
@@ -12,7 +12,7 @@ dependencies = [
 ]
 
 [project.scripts]
-todo-cli = "todo_cli.main:main"
+todo-tui = "todo_tui.main:main"
 
 [build-system]
 requires = ["uv_build>=0.11.14,<0.12.0"]
@@ -20,9 +20,9 @@ build-backend = "uv_build"
 
 [tool.uv_build]
 include = [
-    "src/todo_cli/css/*",
-    "src/todo_cli/assets/*",
-    "src/todo_cli/docs/*",
+    "src/todo_tui/css/*",
+    "src/todo_tui/assets/*",
+    "src/todo_tui/docs/*",
 ]
 
 [dependency-groups]

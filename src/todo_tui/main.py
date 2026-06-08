@@ -8,15 +8,15 @@ from textual.containers import Center, Horizontal, Vertical, VerticalScroll, Gri
 from textual.screen import Screen
 from textual.widgets import Button, Checkbox, Footer, Header, Input, Label, Markdown
 
-PACKAGE = files("todo_cli")
+PACKAGE = files("todo_tui")
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if (PROJECT_ROOT / ".git").exists():
     DB_PATH = PROJECT_ROOT / "db" / "todo.db"  # development
 else:
-    DB_PATH = Path.home() / ".todo-cli" / "todo.db"  # installed
+    DB_PATH = Path.home() / ".todo-tui" / "todo.db"  # installed
 #=======================================================Todo-App==============================================================#
 class TodoApp(App):
-    TITLE = "TODO-CLI"
+    TITLE = "TODO-TUI"
     CSS_PATH = str(PACKAGE / "css" / "todo.tcss")
     BINDINGS = [
         Binding(key="q", action="quit", description="Quit the App"),
@@ -69,7 +69,7 @@ class WelcomeScreen(Screen):
         yield Header(show_clock=True)
         yield Center(
             Vertical(
-                Label("TODO-CLI", id="welcome_title"),
+                Label("TODO-TUI", id="welcome_title"),
                 Label("Your simple Todo List", id="welcome_sub"),
                 Button("Get Started", id="start_btn", variant="primary"),
                 id="welcome_card"
@@ -162,15 +162,36 @@ class TodoScreen(Screen):
         self.update_titles()
 
     def action_delete_task(self):
-        focused = self.focused
-        if isinstance(focused, Checkbox) and focused.id:
-            task_id = focused.id.replace("task_", "")
+        checkbox = self.focused if isinstance(self.focused, Checkbox) else None
+        if checkbox is None or not checkbox.id:
+            checkbox = None
+            for list_id in ("#available_tasks_list", "#completed_tasks_list"):
+                for child in self.query_one(list_id).query(Checkbox):
+                    if child.is_mouse_over:
+                        checkbox = child
+                        break
+                if checkbox:
+                    break
+
+        if checkbox and checkbox.id:
+            task_id = checkbox.id.replace("task_", "")
+            is_completed = checkbox.value
+            target_list_id = "#completed_tasks_list" if is_completed else "#available_tasks_list"
             def handle_result(confirmed):
                 if confirmed:
                     self.conn.execute("DELETE FROM TASKS WHERE ID=?", (task_id,))
                     self.conn.commit()
-                    focused.remove()
-                    self.query_one("#available_tasks_list").focus()
+                    try:
+                        cb = self.query_one(f"#task_{task_id}")
+                        cb.remove()
+                    except Exception:
+                        pass
+                    target_list = self.query_one(target_list_id)
+                    remaining = list(target_list.query(Checkbox))
+                    if remaining:
+                        remaining[0].focus()
+                    else:
+                        target_list.focus()
                     self.update_titles()
             self.app.push_screen(DeleteScreen(), handle_result)
 
