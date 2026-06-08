@@ -1,4 +1,5 @@
 name: Release
+
 on:
   push:
     tags:
@@ -10,17 +11,21 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5
 
-      - name: Set version from tag
+      - name: Verify version matches tag
         run: |
-          VERSION="${{ github.ref_name }}"
-          VERSION="${VERSION#v}"
-          sed -i "s/^version = .*/version = \"$VERSION\"/" pyproject.toml
+          VERSION="${GITHUB_REF_NAME#v}"
+          FILE_VERSION=$(grep '^version' pyproject.toml | sed 's/.*= *"//;s/"//')
+          if [ "$VERSION" != "$FILE_VERSION" ]; then
+            echo "Version mismatch: tag=$VERSION file=$FILE_VERSION"
+            exit 1
+          fi
 
       - name: Build package
         run: uv build
