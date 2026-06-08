@@ -1,4 +1,4 @@
-# TODO-CLI Help
+# TODO-TUI Help
 
 ## Keybindings
 
@@ -43,7 +43,7 @@
 
 ### Quit Confirmation
 - Pressing `q` opens a dialog asking **"Are you sure you want to quit?"**
-- Click **Quit** to exit, or **Cancel** to return
+- click **Quit** to exit, or **Cancel** to return
 
 ## Screens Overview
 
@@ -57,6 +57,6 @@
 ## Technical Details
 
 - Built with [Textual](https://textual.textualize.io) : a Python TUI framework
-- Data is persisted in a local **SQLite** database (`db/todo.db`)
+- Data is persisted in a local **todo.db** database (`.todo-tui/todo.db`)
 - Tasks are stored with creation and completion timestamps
 - A success sound (`bell.wav`) plays when a task is marked complete (Windows only)
