@@ -9,8 +9,11 @@ from textual.screen import Screen
 from textual.widgets import Button, Checkbox, Footer, Header, Input, Label, Markdown
 
 PACKAGE = files("todo_cli")
-DB_PATH = Path.home() / ".todo-cli" / "todo.db"
-
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+if (PROJECT_ROOT / ".git").exists():
+    DB_PATH = PROJECT_ROOT / "db" / "todo.db"  # development
+else:
+    DB_PATH = Path.home() / ".todo-cli" / "todo.db"  # installed
 #=======================================================Todo-App==============================================================#
 class TodoApp(App):
     TITLE = "TODO-CLI"
