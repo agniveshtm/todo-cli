@@ -223,4 +223,121 @@ QuitScreen, DeleteScreen {
     width: 100%;
 }
 
+/* ══════════════════════════════════════════
+   SETTINGS SCREEN
+   ══════════════════════════════════════════ */
+
+SettingsScreen {
+    align: center top;
+}
+
+#settings {
+    align: center top;
+    width: 100%;
+    height: auto;
+    padding: 2 4;
+    margin-top: 1;
+    border: round $primary;
+    border-title-color: $primary;
+    border-title-style: bold;
+    background: $surface;
+}
+
+#settings_title {
+    text-align: center;
+    text-style: bold;
+    color: $primary;
+    width: 100%;
+    margin-bottom: 2;
+    content-align: center middle;
+    border-bottom: solid $primary-darken-1;
+    padding-bottom: 1;
+}
+
+.container {
+    height: auto;
+    width: auto;
+    margin: 1 0;
+    padding: 1 2;
+}
+
+.label {
+    height: 3;
+    content-align: center middle;
+    width: auto;
+    color: $text;
+    margin-right: 2;
+}
+
+Switch {
+    height: auto;
+    width: auto;
+}
+
+/* Keep focus readable without overriding the ON-state indicator */
+Switch:focus {
+    background: $accent 10%;
+}
+
+/* Custom switch design (the one used in SettingsScreen) */
+#custom-design {
+    background: darkslategrey;
+}
+
+/* Track */
+#custom-design > .switch--slider {
+    background: $surface;
+    color: $text;
+    border: solid $primary-darken-2;
+    padding: 0;
+}
+
+/* Track ON state: make it stand out */
+#custom-design.-on > .switch--slider,
+#custom-design.-on .switch--slider,
+#custom-design > .switch--slider.-on,
+Switch.-on > .switch--slider {
+    background: $success 25%;
+    border: solid $success;
+    color: $success;
+}
+
+/*
+  Thumb/knob “square indicator” on the ON side.
+  Textual may use one of these internal element class names, so we style several.
+*/
+#custom-design > .switch--slider .switch--thumb,
+#custom-design > .switch--slider .switch--knob,
+#custom-design > .switch--slider .switch--handle {
+    background: $surface;
+    border: solid $primary-darken-2;
+    width: 1;
+    height: 1;
+    /* place it on the OFF side by default (best-effort) */
+}
+
+/* ON overrides: square knob on the right */
+#custom-design.-on > .switch--slider .switch--thumb,
+#custom-design.-on > .switch--slider .switch--knob,
+#custom-design.-on > .switch--slider .switch--handle,
+
+#custom-design > .switch--slider.-on .switch--thumb,
+#custom-design > .switch--slider.-on .switch--knob,
+#custom-design > .switch--slider.-on .switch--handle,
+
+Switch.-on > .switch--slider .switch--thumb,
+Switch.-on > .switch--slider .switch--knob,
+Switch.-on > .switch--slider .switch--handle {
+    background: $success;
+    border: solid $success-darken-1;
+    /* move to the ON side (right) */
+}
+
+/* Focus: keep thumb visible */
+#custom-design:focus > .switch--slider,
+#custom-design:focus-within > .switch--slider,
+#custom-design > .switch--slider:focus {
+    border: solid $accent;
+}
+
 
