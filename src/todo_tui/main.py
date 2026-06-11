@@ -5,24 +5,35 @@ from typing import cast
 from textual.app import App
 from textual.binding import Binding
 from textual.containers import Center, Horizontal, Vertical, VerticalScroll, Grid
+from textual.reactive import reactive
 from textual.screen import Screen
-from textual.widgets import Button, Checkbox, Footer, Header, Input, Label, Markdown
+from textual.widgets import Button, Checkbox, Footer, Header, Input, Label, Markdown, Static, Switch
 
 PACKAGE = files("todo_tui")
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if (PROJECT_ROOT / ".git").exists():
-    DB_PATH = PROJECT_ROOT / "db" / "todo.db"  # development
+    DB_PATH = PROJECT_ROOT / "db" / "todo.db"
 else:
-    DB_PATH = Path.home() / ".todo-tui" / "todo.db"  # installed
+    DB_PATH = Path.home() / ".todo-tui" / "todo.db"
+
 #=======================================================Todo-App==============================================================#
 class TodoApp(App):
     TITLE = "TODO-TUI"
     CSS_PATH = str(PACKAGE / "css" / "todo.tcss")
     BINDINGS = [
-        Binding(key="q", action="quit", description="Quit the App"),
-        Binding(key="question_mark", action="help", description="Show help screen", key_display="?"),
         Binding(key="h", action="home", description="Home"),
+        Binding(key="s", action="settings", description="Settings"),
+        Binding(key="question_mark", action="help", description="Show help screen", key_display="?"),
+        Binding(key="q", action="quit", description="Quit the App"),
     ]
+
+    sound_enabled = reactive(True)
+
+    def check_action(self, action, parameters):
+        if action == "app.pop_screen":
+            if isinstance(self.screen, (HelpScreen, SettingsScreen)):
+                return None
+        return True
 
     def on_mount(self):
         DB_PATH.parent.mkdir(exist_ok=True)
@@ -49,11 +60,16 @@ class TodoApp(App):
     def action_help(self):
         self.push_screen(HelpScreen())
 
+    def action_settings(self):
+        self.push_screen(SettingsScreen())
+
     def action_quit(self):
         if not isinstance(self.screen, QuitScreen):
             self.push_screen(QuitScreen())
 
     def play_done_sound(self):
+        if not self.sound_enabled:
+            return
         winsound.PlaySound(
             self.bell_path,
             winsound.SND_FILENAME | winsound.SND_ASYNC | winsound.SND_NODEFAULT,
@@ -197,9 +213,7 @@ class TodoScreen(Screen):
 
 #========================================================Help-Screen==========================================================#
 class HelpScreen(Screen):
-    BINDINGS = [
-        Binding(key="escape", action="app.pop_screen", description="Back"),
-    ]
+    BINDINGS = [Binding(key="escape", action="app.pop_screen", description="Back")]
 
     def compose(self):
         yield Header(show_clock=True)
@@ -245,6 +259,31 @@ class DeleteScreen(Screen):
             self.dismiss(True)
         elif event.button.id == "cancel_btn":
             self.dismiss(False)
+
+#=======================================================Settings-Screen=======================================================#
+class SettingsScreen(Screen):
+    BINDINGS = [Binding(key="escape", action="app.pop_screen", description="Back")]
+
+    def on_mount(self):
+        self.theme = "textual-dark"
+        self.query_one("#settings").border_title = "Settings"
+        self.query_one("#custom-design", Switch).value = cast(TodoApp, self.app).sound_enabled
+
+    def compose(self):
+        yield Header(show_clock=True)
+        yield Vertical(
+            Label("Settings", id="settings_title"),
+            Horizontal(
+                Label("Play Completion Sound", classes="label"),
+                Switch(value=True, animate=True, id="custom-design"),
+                classes="container",
+            ),
+            id="settings"
+        )
+        yield Footer()
+
+    def on_switch_changed(self, event: Switch.Changed):
+         cast(TodoApp, self.app).sound_enabled = event.value
 
 def main():
     app = TodoApp()

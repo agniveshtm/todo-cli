@@ -12,6 +12,7 @@ A feature-rich, keyboard-driven **Terminal User Interface (TUI)** todo applicati
 - **Task Persistence** – All tasks are stored in `~/.todo-tui/todo.db` with creation and completion timestamps.
 - **Quit Confirmation** – Press `q` to see a confirmation dialog before exiting.
 - **Help Screen** – Press `?` to view all keybindings and usage instructions.
+- **Settings Screen** – Press `s` to open settings and toggle preferences (e.g. completion sound on/off).
 - **Home Navigation** – Press `h` from any screen to return to the Welcome screen.
 - **Keyboard-Driven UI** – Full keyboard navigation with `Tab`, `Space`, `Delete`, `Esc`, and more.
 - **Dark Theme** – A consistent `textual-dark` theme throughout the app.
@@ -72,8 +73,9 @@ Welcome Screen
       ├── Delete task (Select + Delete key → confirmation dialog)
       │
       ├── Press "?" → Help Screen (Esc to go back)
-      ├── Press "h"  → Welcome Screen
-      └── Press "q"  → Quit Confirmation Dialog
+      ├── Press "s" → Settings Screen (Esc to go back)
+      ├── Press "h" → Welcome Screen
+      └── Press "q" → Quit Confirmation Dialog
 ```
 
 ### Screens Overview
@@ -82,6 +84,7 @@ Welcome Screen
 |------------------|-------------|
 | **Welcome**      | Landing page with the app title and **Get Started** button |
 | **Todo**         | Main task management interface with Available / Completed panels and an input bar |
+| **Settings**     | Configure app preferences (e.g. toggle completion sound on/off) |
 | **Help**         | Displays all keybindings and usage instructions (markdown) |
 | **Quit**         | Modal dialog asking "Are you sure you want to quit?" |
 | **Delete**       | Modal dialog asking "Are you sure you want to delete this task?" |
@@ -100,6 +103,7 @@ Welcome Screen
 |-------------------|------------------------------------------|
 | `q`               | Quit the app (with confirmation)         |
 | `h`               | Go to Welcome / Home screen              |
+| `s`               | Open Settings screen                     |
 | `?`               | Show help screen                         |
 | `Esc`             | Go back / dismiss current screen         |
 | `Delete`          | Delete the focused task (with confirmation) |
@@ -183,8 +187,9 @@ uv run todo-tui
 3. Type a task in the input box and press `Enter` to add it
 4. Use `Tab` to navigate between checkboxes and `Space` to toggle task completion
 5. Press `Delete` to remove a task (confirmation required)
-6. Press `?` anytime to view the help screen
-7. Press `q` and confirm to exit the application
+6. Press `s` to open Settings and toggle the completion sound on/off
+7. Press `?` anytime to view the help screen
+8. Press `q` and confirm to exit the application
 
 ## Project Links
 

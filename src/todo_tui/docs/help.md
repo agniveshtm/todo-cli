@@ -7,8 +7,9 @@
 | `^p` | Open the command palette |
 | `q` | Quit the app (with confirmation) |
 | `h` | Go to Welcome / Home screen |
+| `s` | Open Settings screen |
 | `?` | Show this help screen |
-| `esc` | Go back / dismiss the current screen (e.g. help, dialogs) |
+| `esc` | Go back / dismiss the current screen (e.g. help, settings, dialogs) |
 | `Delete` | Delete the focused task (with confirmation) |
 | `Tab` / `Shift+Tab` | Move focus between widgets |
 | `Enter` | Add a task from the input box |
@@ -39,11 +40,19 @@
 
 ### Navigation
 - Press `h` from any screen to return to the Welcome screen
+- Press `s` to open the Settings screen
+- Press `?` to open this help screen from any screen
 - Press `q` to quit : a confirmation dialog ensures you don't exit accidentally
 
 ### Quit Confirmation
 - Pressing `q` opens a dialog asking **"Are you sure you want to quit?"**
 - click **Quit** to exit, or **Cancel** to return
+
+## Settings
+
+- Press `s` from any screen to open the Settings screen
+- Toggle **Play Completion Sound** to enable/disable the sound effect when marking a task as done
+- Press `esc` to return to the previous screen
 
 ## Screens Overview
 
@@ -51,6 +60,8 @@
 |--------|-------------|
 | **Welcome** | Landing page with title and **Get Started** button |
 | **Todo** | Main task management interface with two lists and an input box |
+| **Settings** | Configure app preferences (e.g. toggle completion sound on/off) |
+| **Help** | This screen — keybindings and usage instructions |
 | **Quit** | Modal dialog confirming intent to exit the application |
 | **Delete** | Modal dialog confirming intent to delete a task |
 
