@@ -50,9 +50,32 @@ class TodoApp(App):
             )
             """
         )
+        self.conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS SETTINGS(
+                KEY TEXT PRIMARY KEY,
+                VALUE TEXT NOT NULL
+            )
+            """
+        )
         self.conn.commit()
+        self.load_settings()
         self.theme = "textual-dark"
         self.push_screen(WelcomeScreen())
+
+    def load_settings(self):
+        row = self.conn.execute("SELECT VALUE FROM SETTINGS WHERE KEY = ?", ("sound_enabled",)).fetchone()
+        if row is not None:
+            self.sound_enabled = row[0] == "1"
+        else:
+            self.sound_enabled = True
+
+    def save_sound_setting(self, value: bool):
+        self.conn.execute(
+            "INSERT OR REPLACE INTO SETTINGS (KEY, VALUE) VALUES (?, ?)",
+            ("sound_enabled", "1" if value else "0"),
+        )
+        self.conn.commit()
 
     def action_home(self):
         self.push_screen(WelcomeScreen())
@@ -283,7 +306,9 @@ class SettingsScreen(Screen):
         yield Footer()
 
     def on_switch_changed(self, event: Switch.Changed):
-         cast(TodoApp, self.app).sound_enabled = event.value
+        app = cast(TodoApp, self.app)
+        app.sound_enabled = event.value
+        app.save_sound_setting(event.value)
 
 def main():
     app = TodoApp()

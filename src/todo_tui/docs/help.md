@@ -71,3 +71,4 @@
 - Data is persisted in a local **todo.db** database (`.todo-tui/todo.db`)
 - Tasks are stored with creation and completion timestamps
 - A success sound (`bell.wav`) plays when a task is marked complete (Windows only)
+- Settings (such as the completion sound toggle) are persisted in a **SETTINGS** table inside `todo.db` and survive app restarts
