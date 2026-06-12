@@ -12,7 +12,7 @@ A feature-rich, keyboard-driven **Terminal User Interface (TUI)** todo applicati
 - **Task Persistence** – All tasks are stored in `~/.todo-tui/todo.db` with creation and completion timestamps.
 - **Quit Confirmation** – Press `q` to see a confirmation dialog before exiting.
 - **Help Screen** – Press `?` to view all keybindings and usage instructions.
-- **Settings Screen** – Press `s` to open settings and toggle preferences (e.g. completion sound on/off).
+- **Settings Screen** – Press `s` to open settings and toggle preferences (e.g. completion sound on/off). Settings persist across app restarts.
 - **Home Navigation** – Press `h` from any screen to return to the Welcome screen.
 - **Keyboard-Driven UI** – Full keyboard navigation with `Tab`, `Space`, `Delete`, `Esc`, and more.
 - **Dark Theme** – A consistent `textual-dark` theme throughout the app.
@@ -32,6 +32,18 @@ The core task management view with two panels: **Available** tasks on the left a
 
 ![Todo Task Area](src/todo_tui/assets/Todo-TaskArea%20(Screenshot).png)
 
+### Settings Screen
+
+Configure app preferences such as toggling the completion sound on/off. Settings persist across restarts.
+
+![Settings Screen](src/todo_tui/assets/Settings%20Screen%20(Screenshot).png)
+
+### Help Screen
+
+Displays all keybindings and usage instructions for the app.
+
+![Help Screen](src/todo_tui/assets/Help%20Screen%20(Screenshot).png)
+
 ## Architecture
 
 ```
@@ -43,8 +55,10 @@ todo-tui/
 │   └── todo_tui/
 │       ├── assets/                  # Static assets (images, sounds)
 │       │   ├── bell.wav             # Success sound played on task completion
-│       │   ├── Welcome Screen (Screenshot).png
-│       │   └── Todo-TaskArea (Screenshot).png
+│       │   ├── Help Screen (Screenshot).png
+│       │   ├── Settings Screen (Screenshot).png
+│       │   ├── Todo-TaskArea (Screenshot).png
+│       │   └── Welcome Screen (Screenshot).png
 │       ├── css/
 │       │   └── todo.tcss            # Textual CSS stylesheet for the TUI
 │       ├── docs/
@@ -88,6 +102,29 @@ Welcome Screen
 | **Help**         | Displays all keybindings and usage instructions (markdown) |
 | **Quit**         | Modal dialog asking "Are you sure you want to quit?" |
 | **Delete**       | Modal dialog asking "Are you sure you want to delete this task?" |
+
+### Database Schema
+
+The app uses SQLite with two tables:
+
+**TASKS table** — stores all todo items:
+```sql
+CREATE TABLE TASKS(
+    ID          INTEGER PRIMARY KEY,
+    TASK        TEXT NOT NULL,
+    DONE        INTEGER DEFAULT 0,
+    CREATED_AT  TEXT DEFAULT(datetime('now','localtime')),
+    COMPLETED_AT TEXT
+);
+```
+
+**SETTINGS table** — stores user preferences (key-value pairs, e.g. `sound_enabled`):
+```sql
+CREATE TABLE SETTINGS(
+    KEY   TEXT PRIMARY KEY,
+    VALUE TEXT NOT NULL
+);
+```
 
 ### Tech Stack
 
