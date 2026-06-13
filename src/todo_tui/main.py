@@ -122,7 +122,10 @@ class WelcomeScreen(Screen):
 
 #========================================================Todo-Screen==========================================================#
 class TodoScreen(Screen):
-    BINDINGS = [Binding(key="delete", action="delete_task", description="Delete Task")]
+    BINDINGS = [
+        Binding(key="delete", action="delete_task", description="Delete Task"),
+        Binding(key="ctrl+d", action="batch_delete", description="Delete All"),
+    ]
 
     @property
     def todo_app(self):
@@ -175,10 +178,11 @@ class TodoScreen(Screen):
 
     def on_checkbox_changed(self, event):
         checkbox = event.checkbox
+        if checkbox.id is None or not checkbox.id.startswith("task_"):
+            return
         task_label = str(checkbox.label)
         done = int(event.value)
-        checkbox_id = checkbox.id
-        db_id = checkbox_id.replace("task_", "")
+        db_id = checkbox.id.replace("task_", "")
 
         db_done_row = self.conn.execute("SELECT DONE FROM TASKS WHERE ID = ?", (db_id,)).fetchone()
         if db_done_row is not None and db_done_row[0] == done:
@@ -187,7 +191,7 @@ class TodoScreen(Screen):
             self.conn.execute("UPDATE TASKS SET DONE=1, COMPLETED_AT=datetime('now','localtime') WHERE ID=?", (db_id,))
             self.conn.commit()
             checkbox.remove()
-            new_cb = Checkbox(task_label, value=True, id=checkbox_id)
+            new_cb = Checkbox(task_label, value=True, id=checkbox.id)
             self.query_one("#completed_tasks_list").mount(new_cb)
             new_cb.focus()
             self.todo_app.play_done_sound()
@@ -195,10 +199,61 @@ class TodoScreen(Screen):
             self.conn.execute("UPDATE TASKS SET DONE=0, COMPLETED_AT=NULL WHERE ID=?", (db_id,))
             self.conn.commit()
             checkbox.remove()
-            new_cb = Checkbox(task_label, value=False, id=checkbox_id)
+            new_cb = Checkbox(task_label, value=False, id=checkbox.id)
             self.query_one("#available_tasks_list").mount(new_cb)
             new_cb.focus()
         self.update_titles()
+
+    def action_batch_delete(self):
+        """Trigger batch delete: requires a VerticalScroll container (available/completed) to be focused."""
+        focused = self.focused
+        if focused is None:
+            return
+        # Check if the focused widget is one of the task-list containers or a descendant
+        available_list = self.query_one("#available_tasks_list")
+        completed_list = self.query_one("#completed_tasks_list")
+        if focused is available_list or focused is completed_list:
+            target_list = focused
+        else:
+            # Check if we're inside a task list container (via ancestors)
+            node = focused
+            while node is not None:
+                if node is available_list or node is completed_list:
+                    target_list = node
+                    break
+                node = node.parent
+            else:
+                return
+
+        is_completed = target_list.id == "completed_tasks_list"
+        done_value = 1 if is_completed else 0
+        rows = self.conn.execute(
+            "SELECT ID, TASK FROM TASKS WHERE DONE = ? ORDER BY CREATED_AT",
+            (done_value,),
+        ).fetchall()
+        if not rows:
+            return
+
+        def handle_result(task_ids):
+            if task_ids is None:
+                return
+            placeholders = ", ".join("?" for _ in task_ids)
+            self.conn.execute(f"DELETE FROM TASKS WHERE ID IN ({placeholders})", tuple(task_ids))
+            self.conn.commit()
+            for tid in task_ids:
+                try:
+                    cb = self.query_one(f"#task_{tid}")
+                    cb.remove()
+                except Exception:
+                    pass
+            self.update_titles()
+            remaining = list(target_list.query(Checkbox))
+            if remaining:
+                remaining[0].focus()
+            else:
+                target_list.focus()
+
+        self.app.push_screen(DeleteAllScreen(rows, is_completed), handle_result)
 
     def action_delete_task(self):
         checkbox = self.focused if isinstance(self.focused, Checkbox) else None
@@ -282,6 +337,73 @@ class DeleteScreen(Screen):
             self.dismiss(True)
         elif event.button.id == "cancel_btn":
             self.dismiss(False)
+
+#=====================================================Delete-All-Screen======================================================#
+class DeleteAllScreen(Screen):
+    """Modal screen for deleting multiple tasks at once with a select-all checkbox."""
+    BINDINGS = [Binding(key="escape", action="dismiss", description="Cancel")]
+
+    def __init__(self, rows, is_completed):
+        super().__init__()
+        self.rows = rows          # list of (id, task_text)
+        self.is_completed = is_completed
+
+    def on_mount(self):
+        self.theme = "textual-dark"
+        container = self.query_one("#batch_dialog")
+        container.border_title = "Delete All Tasks"
+        # Populate task checkboxes
+        tasks_container = self.query_one("#batch_tasks")
+        for tid, task_text in self.rows:
+            tasks_container.mount(Checkbox(task_text, value=False, id=f"batch_task_{tid}"))
+
+    def compose(self):
+        title = "Completed" if self.is_completed else "Available"
+        yield Grid(
+            Label(f"Select tasks to delete from {title}", id="batch_question"),
+            Horizontal(
+                Checkbox("Select All", value=False, id="select_all_checkbox"),
+                id="select_all_row",
+            ),
+            VerticalScroll(id="batch_tasks", classes="batch-list"),
+            Horizontal(
+                Vertical(
+                    Label("Delete", id="delete_label"),
+                    Button("Delete All", variant="error", id="batch_delete_btn", classes="batch-action-btn"),
+                ),
+                Vertical(
+                    Label("Cancel", id="cancel_label"),
+                    Button("Cancel", variant="primary", id="batch_cancel_btn", classes="batch-action-btn"),
+                ),
+                id="batch_buttons",
+            ),
+            id="batch_dialog",
+        )
+
+    def on_checkbox_changed(self, event):
+        checkbox = event.checkbox
+        if checkbox.id == "select_all_checkbox":
+            # Toggle all task checkboxes
+            new_value = event.value
+            for child in self.query_one("#batch_tasks").query(Checkbox):
+                child.value = new_value
+
+    def on_button_pressed(self, event):
+        if event.button.id == "batch_delete_btn":
+            selected_ids = []
+            for child in self.query_one("#batch_tasks").query(Checkbox):
+                if child.value:
+                    cid = child.id
+                    if cid is None:
+                        continue
+                    tid = cid.replace("batch_task_", "")
+                    selected_ids.append(tid)
+            if selected_ids:
+                self.dismiss(selected_ids)
+            else:
+                self.dismiss(None)
+        elif event.button.id == "batch_cancel_btn":
+            self.dismiss(None)
 
 #=======================================================Settings-Screen=======================================================#
 class SettingsScreen(Screen):

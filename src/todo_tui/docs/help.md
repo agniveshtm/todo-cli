@@ -11,6 +11,7 @@
 | `?` | Show this help screen |
 | `esc` | Go back / dismiss the current screen (e.g. help, settings, dialogs) |
 | `Delete` | Delete the focused task (with confirmation) |
+| `Ctrl+d` | Delete All — open multi-select modal for the focused task list (Available / Completed) |
 | `Tab` / `Shift+Tab` | Move focus between widgets |
 | `Enter` | Add a task from the input box |
 | `Space` | Check / Uncheck a task |
@@ -33,10 +34,16 @@
 - A success sound plays when marking a task as done
 - Un-completing a task moves it back to the **Available** panel
 
-### Deleting Tasks
+### Deleting Tasks (Individual)
 - Focus a task checkbox and press **Delete**
 - A confirmation dialog appears : click **Delete** or press `Tab` then **Enter** to confirm
 - The task is permanently removed from the database
+
+### Deleting Tasks (Delete All)
+- Focus the **Available** or **Completed** task list container (via `Tab` or click on the border) and press **Ctrl+d**
+- A Delete All modal opens showing all tasks in that list with checkboxes
+- Use the **Select All** checkbox to toggle all tasks, or check individual tasks
+- Click **Delete All** to remove all selected tasks, or **Cancel** to abort
 
 ### Navigation
 - Press `h` from any screen to return to the Welcome screen
@@ -64,6 +71,7 @@
 | **Help** | This screen — keybindings and usage instructions |
 | **Quit** | Modal dialog confirming intent to exit the application |
 | **Delete** | Modal dialog confirming intent to delete a task |
+| **Delete All** | Modal dialog with task checkboxes, Select All, and Delete/Cancel buttons |
 
 ## Technical Details
 
