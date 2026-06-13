@@ -10,7 +10,7 @@ A feature-rich, keyboard-driven **Terminal User Interface (TUI)** todo applicati
 
 - **Add Tasks** – Type a task in the input box to add it instantly.
 - **Complete / Un-complete Tasks** – Toggle checkboxes to move tasks to the **Completed** panel with a success sound (Windows).
-- **Delete Tasks** – Deletion requires confirmation to prevent accidental removal.
+- **Delete Tasks** – Individual task deletion with confirmation; delete multiple tasks at once with **Ctrl+d** and Select All (Delete All).
 - **Task Persistence** – All tasks are stored in `~/.todo-tui/todo.db` with creation and completion timestamps.
 - **Quit Confirmation** – Prompts for confirmation before exiting.
 - **Help Screen** – View all keybindings and usage instructions.
@@ -87,6 +87,7 @@ Welcome Screen
       ├── Add task (Input + Enter)
       ├── Toggle task (Checkbox + Space)
       ├── Delete task (Select + Delete key → confirmation dialog)
+      ├── Delete All (Focus list container + Ctrl+d → multi-select modal)
       │
       ├── Press "?" → Help Screen (Esc to go back)
       ├── Press "s" → Settings Screen (Esc to go back)
@@ -104,6 +105,7 @@ Welcome Screen
 | **Help**         | Displays all keybindings and usage instructions (markdown) |
 | **Quit**         | Modal dialog asking "Are you sure you want to quit?" |
 | **Delete**       | Modal dialog asking "Are you sure you want to delete this task?" |
+| **Delete All** | Modal dialog with task checkboxes, Select All, and Delete/Cancel buttons |
 
 ### Database Schema
 
@@ -138,17 +140,18 @@ CREATE TABLE SETTINGS(
 
 ## Keybindings
 
-| Key               | Action                                   |
-|-------------------|------------------------------------------|
-| `q`               | Quit the app (with confirmation)         |
-| `h`               | Go to Welcome / Home screen              |
-| `s`               | Open Settings screen                     |
-| `?`               | Show help screen                         |
-| `Esc`             | Go back / dismiss current screen         |
-| `Delete`          | Delete the focused task (with confirmation) |
-| `Tab` / `Shift+Tab` | Move focus between widgets            |
-| `Enter`           | Add a task from the input box            |
-| `Space`           | Check / Uncheck a task checkbox          |
+| Key                  | Action                                      |
+|----------------------|---------------------------------------------|
+| `q`                  | Quit the app (with confirmation)            |
+| `h`                  | Go to Welcome / Home screen                 |
+| `s`                  | Open Settings screen                        |
+| `?`                  | Show help screen                            |
+| `Esc`                | Go back / dismiss current screen            |
+| `Delete`             | Delete the focused task (with confirmation) |
+| `Ctrl+d`             | Delete All — multi-select modal             |
+| `Tab` / `Shift+Tab`  | Move focus between widgets                  |
+| `Enter`              | Add a task from the input box               |
+| `Space`              | Check / Uncheck a task checkbox             |
 
 ## Benchmarks
 
@@ -225,7 +228,7 @@ uv run todo-tui
 2. Click **Get Started** on the Welcome screen
 3. Type a task in the input box to add it
 4. Navigate checkboxes and toggle task completion
-5. Remove tasks when needed (confirmation required)
+5. Remove individual tasks with **Delete** (confirmation required) or Delete All with **Ctrl+d**
 6. Open Settings to adjust preferences
 7. View the help screen anytime for keybindings
 8. Quit and confirm to exit the application

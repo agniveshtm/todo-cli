@@ -187,7 +187,7 @@ TodoScreen Input.-invalid:focus {
    QUIT SCREEN (modal dialog)
    ══════════════════════════════════════════ */
 
-QuitScreen, DeleteScreen {
+QuitScreen, DeleteScreen, DeleteAllScreen {
     align: center middle;
     background: rgba(0, 0, 0, 0.6);
 }
@@ -211,7 +211,7 @@ QuitScreen, DeleteScreen {
     border-title-color: $accent;
 }
 
-#question {
+#question, #batch_question {
     column-span: 2;
     content-align: center middle;
     text-align: center;
@@ -221,6 +221,116 @@ QuitScreen, DeleteScreen {
 
 #dialog Button {
     width: 100%;
+}
+
+/* ══════════════════════════════════════════
+   BATCH DELETE SCREEN (modal dialog)
+   ══════════════════════════════════════════ */
+
+#batch_dialog {
+    grid-size: 2;
+    grid-gutter: 1 2;
+    grid-rows: auto auto 1fr auto;
+    padding: 1 2;
+    width: 60;
+    height: 80%;
+    border: thick $primary;
+    background: $surface;
+    border-title-align: center;
+    border-title-color: $primary;
+    border-title-style: bold;
+}
+
+#batch_dialog:focus-within {
+    border: thick $accent;
+    border-title-color: $accent;
+}
+
+#batch_question {
+    column-span: 2;
+    content-align: center middle;
+    text-align: center;
+    text-style: bold;
+    color: $text;
+}
+
+#select_all_row {
+    column-span: 2;
+    height: auto;
+    align: center middle;
+}
+
+#select_all_checkbox {
+    width: auto;
+    padding: 0 2;
+    border: tall transparent;
+    background: $surface;
+    color: $text;
+}
+
+#select_all_checkbox:hover {
+    background: $primary 15%;
+    border: tall $primary-darken-1;
+}
+
+#select_all_checkbox:focus {
+    border: tall $accent;
+    background: $accent 10%;
+}
+
+#delete_label, #cancel_label {
+    display: none;
+}
+
+#batch_buttons {
+    column-span: 2;
+    height: auto;
+    align: center middle;
+}
+
+#batch_buttons > Vertical {
+    width: 1fr;
+    height: auto;
+    align: center middle;
+}
+
+#batch_buttons Button {
+    width: 100%;
+    margin: 0 1;
+}
+
+#batch_tasks {
+    column-span: 2;
+    height: 100%;
+    border: round $primary-darken-2;
+    background: $surface;
+    padding: 0 1;
+    scrollbar-color: $primary;
+    scrollbar-color-hover: $accent;
+    scrollbar-background: $surface;
+}
+
+#batch_tasks:focus-within {
+    border: round $accent;
+}
+
+#batch_tasks Checkbox {
+    width: 100%;
+    margin: 0;
+    padding: 0 2;
+    border: tall transparent;
+    background: $surface;
+    color: $text;
+}
+
+#batch_tasks Checkbox:hover {
+    background: $primary 15%;
+    border: tall $primary-darken-1;
+}
+
+#batch_tasks Checkbox:focus {
+    border: tall $accent;
+    background: $accent 10%;
 }
 
 /* ══════════════════════════════════════════
