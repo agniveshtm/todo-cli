@@ -341,6 +341,7 @@ class DeleteScreen(Screen):
 #=====================================================Delete-All-Screen======================================================#
 class DeleteAllScreen(Screen):
     """Modal screen for deleting multiple tasks at once with a select-all checkbox."""
+    BINDINGS = [Binding(key="escape", action="dismiss", description="Cancel")]
 
     def __init__(self, rows, is_completed):
         super().__init__()
