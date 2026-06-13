@@ -1,20 +1,22 @@
 # TODO-TUI
 
-A feature-rich, keyboard-driven **Terminal User Interface (TUI)** todo application built with [Textual](https://textual.textualize.io) and [Python](https://python.org). Manage your tasks right from the terminal with a clean, dark-themed interface and full keyboard navigation.
+<p align="center">
+  <img src="src/todo_tui/assets/logo.png" alt="TODO-TUI Logo" width="200"/>
+</p>
 
-![Welcome Screen](src/todo_tui/assets/Welcome%20Screen%20(Screenshot).png)
+A feature-rich, keyboard-driven **Terminal User Interface (TUI)** todo application built with [Textual](https://textual.textualize.io) and [Python](https://python.org). Manage your tasks right from the terminal with a clean, dark-themed interface and full keyboard navigation.
 
 ## Features
 
-- **Add Tasks** – Type a task in the input box and press `Enter` to add it instantly.
-- **Complete / Un-complete Tasks** – Toggle checkboxes with `Space`. Completed tasks move to the **Completed** panel and play a success sound (Windows).
-- **Delete Tasks** – Focus a task and press `Delete`. A confirmation dialog prevents accidental deletion.
+- **Add Tasks** – Type a task in the input box to add it instantly.
+- **Complete / Un-complete Tasks** – Toggle checkboxes to move tasks to the **Completed** panel with a success sound (Windows).
+- **Delete Tasks** – Deletion requires confirmation to prevent accidental removal.
 - **Task Persistence** – All tasks are stored in `~/.todo-tui/todo.db` with creation and completion timestamps.
-- **Quit Confirmation** – Press `q` to see a confirmation dialog before exiting.
-- **Help Screen** – Press `?` to view all keybindings and usage instructions.
-- **Settings Screen** – Press `s` to open settings and toggle preferences (e.g. completion sound on/off). Settings persist across app restarts.
-- **Home Navigation** – Press `h` from any screen to return to the Welcome screen.
-- **Keyboard-Driven UI** – Full keyboard navigation with `Tab`, `Space`, `Delete`, `Esc`, and more.
+- **Quit Confirmation** – Prompts for confirmation before exiting.
+- **Help Screen** – View all keybindings and usage instructions.
+- **Settings Screen** – Toggle preferences (e.g. completion sound on/off). Settings persist across app restarts.
+- **Home Navigation** – Return to the Welcome screen from anywhere.
+- **Keyboard-Driven UI** – Full keyboard navigation without needing a mouse.
 - **Dark Theme** – A consistent `textual-dark` theme throughout the app.
 - **Sound Feedback** – A bell sound plays when a task is marked complete (Windows only).
 
@@ -220,13 +222,13 @@ uv run todo-tui
 ## Usage
 
 1. Launch the app with `todo-tui`
-2. Click **Get Started** (or press `Enter`) on the Welcome screen
-3. Type a task in the input box and press `Enter` to add it
-4. Use `Tab` to navigate between checkboxes and `Space` to toggle task completion
-5. Press `Delete` to remove a task (confirmation required)
-6. Press `s` to open Settings and toggle the completion sound on/off
-7. Press `?` anytime to view the help screen
-8. Press `q` and confirm to exit the application
+2. Click **Get Started** on the Welcome screen
+3. Type a task in the input box to add it
+4. Navigate checkboxes and toggle task completion
+5. Remove tasks when needed (confirmation required)
+6. Open Settings to adjust preferences
+7. View the help screen anytime for keybindings
+8. Quit and confirm to exit the application
 
 ## Project Links
 
