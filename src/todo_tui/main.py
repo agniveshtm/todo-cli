@@ -237,8 +237,8 @@ class TodoScreen(Screen):
         def handle_result(task_ids):
             if task_ids is None:
                 return
-            for tid in task_ids:
-                self.conn.execute("DELETE FROM TASKS WHERE ID=?", (tid,))
+            placeholders = ", ".join("?" for _ in task_ids)
+            self.conn.execute(f"DELETE FROM TASKS WHERE ID IN ({placeholders})", tuple(task_ids))
             self.conn.commit()
             for tid in task_ids:
                 try:
